@@ -7,11 +7,11 @@
         var stat = fs.fstatSync(fd);
         var buffer = new Buffer(stat.size);
         var bytes = fs.readSync(fd, buffer, 0, stat.size, 0);
-        var m = [];
+        var rom = [];
         for(var i = 0; i < bytes; i += 4) {
-            m.push(buffer.readInt32BE(i));
+            rom.push(buffer.readInt32BE(i));
         }
-        return m;
+        return rom;
     }
     exports.readMakoRom = readMakoRom;
 })(exports);
