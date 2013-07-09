@@ -80,7 +80,7 @@
         function pop()     { return m[--m[DP]]; }
         function rpop()    { return m[--m[RP]]; }
         function mod(a, b) { a %= b; return a < 0 ? a+b : a; }
-        function div(a, b) { return Math.floor(b/a); }
+        function div(a, b) { return Math.floor(a/b); }
 
         function run() {
             while(m[m[PC]] !== OP_SYNC) {
