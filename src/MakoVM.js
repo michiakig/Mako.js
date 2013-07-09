@@ -79,6 +79,7 @@ function rpush(v)  { m[m[RP]++] = v; }
 function pop()     { return m[--m[DP]]; }
 function rpop()    { return m[--m[RP]]; }
 function mod(a, b) { a %= b; return a < 0 ? a+b : a; }
+function div(a, b) { return Math.floor(b/a); }
 
 function run() {
     while(m[m[PC]] !== OP_SYNC) {
@@ -110,7 +111,7 @@ function tick() {
         case OP_ADD    : a = pop(); b = pop(); push(b+a);         break;
         case OP_SUB    : a = pop(); b = pop(); push(b-a);         break;
         case OP_MUL    : a = pop(); b = pop(); push(b*a);         break;
-        case OP_DIV    : a = pop(); b = pop(); push(b/a);         break;
+        case OP_DIV    : a = pop(); b = pop(); push(div(b,a));    break;
         case OP_MOD    : a = pop(); b = pop(); push(mod(b,a));    break;
         case OP_AND    : a = pop(); b = pop(); push(b&a);         break;
         case OP_OR     : a = pop(); b = pop(); push(b|a);         break;
