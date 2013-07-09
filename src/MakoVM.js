@@ -85,8 +85,7 @@
         function run() {
             while(m[m[PC]] !== OP_SYNC) {
                 tick();
-                if(m[PC] === -1) { process.exit(0); }
-                if(m[PC] < 0) { process.exit(0); }
+                if(m[PC] === -1) { return; }
             }
             //    sync();
             m[PC]++;
