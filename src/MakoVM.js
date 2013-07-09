@@ -73,7 +73,6 @@
 
     // MakoVM.java
     function MakoVM(m) {
-        this.m = m;
 
         function push(v)   { m[m[DP]++] = v; }
         function rpush(v)  { m[m[RP]++] = v; }
