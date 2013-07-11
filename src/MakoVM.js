@@ -72,7 +72,15 @@
     var X_OPEN_WRITE = 2;
 
     // MakoVM.java
-    function MakoVM(m) {
+    function MakoVM(write, rom) {
+        // copy ROM into main memory
+        var m = new Array(rom.length);
+        for(var i = 0; i < rom.length; i++) {
+            m[i] = rom[i];
+        }
+        this.m = m;
+
+        this.p = new Array(320 * 240);
 
         function push(v)   { m[m[DP]++] = v; }
         function rpush(v)  { m[m[RP]++] = v; }
