@@ -154,7 +154,7 @@
         }
 
         function stor(addr, value) {
-            if (addr === CO) { process.stdout.write(String.fromCharCode(value)); }
+            if (addr === CO) { write(String.fromCharCode(value)); }
             if (addr === AU) {
                 /* TODO: audio out */
             }

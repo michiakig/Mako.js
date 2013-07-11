@@ -5,11 +5,12 @@ if(require.main === module) {
         process.exit(1);
     }
 
+    var write = require("./WriteNode.js").write;
     var readMakoRom = require("./Read.js").readMakoRom;
     var MakoVM = require("./MakoVM.js").MakoVM;
+    var exec = require("./Mako.js").exec;
 
     var filename = process.argv[2];
     var rom = readMakoRom(filename);
-    var vm = new MakoVM(rom);
-    vm.run();
+    exec(rom);
 }
