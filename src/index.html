@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <title>MakoVM</title>
+    <script type="text/javascript" src="./WriteBrowser.js"></script>
+    <script type="text/javascript" src="./MakoConstants.js"></script>
+    <script type="text/javascript" src="./MakoVM.js"></script>
+    <script type="text/javascript" src="./Mako.js"></script>
+    <script type="text/javascript" src="../pong.json"></script>
+
+    <script type="text/javascript">
+function onload() {
+    canvas = document.getElementById('video');
+    ctx = canvas.getContext('2d');
+    vm = new MakoVM(write, pong);
+    vm.sync();
+    update(ctx, vm);
+}
+    </script>
+
+    <style type="text/css">
+    </style>
+  </head>
+  <body onload="onload();">
+    <canvas id="video" width="960" height="720"></canvas>
+  </body>
+</html>

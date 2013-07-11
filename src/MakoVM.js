@@ -94,7 +94,7 @@
                 tick();
                 if(m[PC] === -1) { return; }
             }
-            //    sync();
+            sync();
             m[PC]++;
         }
         this.run = run;
@@ -131,6 +131,7 @@
             case OP_NEXT   : m[PC] = --m[m[RP]-1]<0?m[PC]+1:m[m[PC]]; break;
             }
         }
+        this.tick = tick;
 
         function load(addr) {
             if(addr === RN) { /* TODO: random number */ }
@@ -166,6 +167,78 @@
             }
             m[addr] = value;
         }
+
+	function drawPixel(x, y, c) {
+	    if (((c >> 24) & 0xFF) !== 0xFF)            { return; }
+	    if (x < 0 || x >= 320 || y < 0 || y >= 240) { return; }
+	    this.p[x + (y * 320)] = c;
+	}
+        this.drawPixel = drawPixel;
+
+	function drawTile(tile, px, py) {
+	    tile &= ~GRID_Z_MASK;
+	    if (tile < 0) { return; }
+	    var i = m[GT] + (tile * 8 * 8);
+	    for(var y = 0; y < 8; y++) {
+		for(var x = 0; x < 8; x++) {
+		    this.drawPixel(x+px, y+py, m[i++]);
+		}
+	    }
+	}
+        this.drawTile = drawTile;
+
+	function drawSprite(tile, status, px, py) {
+	    if (status % 2 === 0) { return; }
+	    var w = (((status & 0x0F00) >>  8) + 1) << 3;
+	    var h = (((status & 0xF000) >> 12) + 1) << 3;
+	    var xd = 1; var x0 = 0; var x1 = w;
+	    var yd = 1; var y0 = 0; var y1 = h;
+	    if ((status & H_MIRROR_MASK) !== 0) { xd = -1; x0 = w - 1; x1 = -1; }
+	    if ((status & V_MIRROR_MASK) !== 0) { yd = -1; y0 = h - 1; y1 = -1; }
+	    var i = m[ST] + (tile * w * h);
+	    for(var y = y0; y !== y1; y += yd) {
+		for(var x = x0; x !== x1; x += xd) {
+		    this.drawPixel(x+px, y+py, m[i++]);
+		}
+	    }
+	}
+        this.drawSprite = drawSprite;
+
+	function drawGrid(hiz, scrollx, scrolly) {
+	    var i = m[GP];
+	    for(var y = 0; y < 31; y++) {
+		for(var x = 0; x < 41; x++) {
+		    if (!hiz && (m[i] & GRID_Z_MASK) !== 0) { i++; continue; }
+		    if ( hiz && (m[i] & GRID_Z_MASK) === 0) { i++; continue; }
+		    this.drawTile(m[i++], x*8 - scrollx, y*8 - scrolly);
+		}
+		i += m[GS];
+	    }
+	}
+        this.drawGrid = drawGrid;
+
+	function sync() {
+	    var scrollx = m[SX];
+	    var scrolly = m[SY];
+            for(var i = 0; i < this.p.length; i++) {
+                this.p[i] = m[CL];
+            }
+	    this.drawGrid(false, scrollx, scrolly);
+	    for(var sprite = 0; sprite < 1024; sprite += 4) {
+		var status = m[m[SP] + sprite    ];
+		var tile   = m[m[SP] + sprite + 1];
+		var px     = m[m[SP] + sprite + 2];
+		var py     = m[m[SP] + sprite + 3];
+		this.drawSprite(tile, status, px - scrollx, py - scrolly);
+	    }
+	    this.drawGrid(true, scrollx, scrolly);
+
+	    // if (soundLine != null && apointer > 0) {
+	    //     soundLine.write(abuffer, 0, apointer);
+	    //     apointer = 0;
+	    // }
+	}
+        this.sync = sync;
     }
 
     exports.MakoVM = MakoVM;
