@@ -133,8 +133,12 @@
         }
         this.tick = tick;
 
+        var max1 = Math.pow(2, 32);
+        var max2 = Math.pow(2, 31);
         function load(addr) {
-            if(addr === RN) { /* TODO: random number */ }
+            if(addr === RN) { // random 32-bit two's complement int
+                return Math.floor(Math.random() * max1) - max2;
+            }
             if(addr === KY) { return -1; /*keys*/ }
             if(addr === KB) {
                 //        if(keyQueue.length > 0) { return keyQueue.shift(); }

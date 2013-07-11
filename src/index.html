@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>MakoVM</title>
+    <script type="text/javascript" src="../lib/stats.min.js"></script>
     <script type="text/javascript" src="./WriteBrowser.js"></script>
     <script type="text/javascript" src="./MakoConstants.js"></script>
     <script type="text/javascript" src="./MakoVM.js"></script>
@@ -10,18 +11,14 @@
 
     <script type="text/javascript">
 function onload() {
-    canvas = document.getElementById('video');
-    ctx = canvas.getContext('2d');
-    vm = new MakoVM(write, pong);
-    vm.sync();
-    update(ctx, vm);
+    exec(pong);
 }
     </script>
 
     <style type="text/css">
     </style>
   </head>
-  <body onload="onload();">
+  <body onload="setupStats(); onload();">
     <canvas id="video" width="960" height="720"></canvas>
   </body>
 </html>
