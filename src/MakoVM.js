@@ -72,7 +72,7 @@
     var X_OPEN_WRITE = 2;
 
     // MakoVM.java
-    function MakoVM(write, rom) {
+    function MakoVM(write, drawPixel, rom) {
         // copy ROM into main memory
         var m = new Array(rom.length);
         for(var i = 0; i < rom.length; i++) {
@@ -172,20 +172,13 @@
             m[addr] = value;
         }
 
-	function drawPixel(x, y, c) {
-	    if (((c >> 24) & 0xFF) !== 0xFF)            { return; }
-	    if (x < 0 || x >= 320 || y < 0 || y >= 240) { return; }
-	    this.p[x + (y * 320)] = c;
-	}
-        this.drawPixel = drawPixel;
-
 	function drawTile(tile, px, py) {
 	    tile &= ~GRID_Z_MASK;
 	    if (tile < 0) { return; }
 	    var i = m[GT] + (tile * 8 * 8);
 	    for(var y = 0; y < 8; y++) {
 		for(var x = 0; x < 8; x++) {
-		    this.drawPixel(x+px, y+py, m[i++]);
+		    drawPixel(x+px, y+py, m[i++]);
 		}
 	    }
 	}
@@ -202,7 +195,7 @@
 	    var i = m[ST] + (tile * w * h);
 	    for(var y = y0; y !== y1; y += yd) {
 		for(var x = x0; x !== x1; x += xd) {
-		    this.drawPixel(x+px, y+py, m[i++]);
+		    drawPixel(x+px, y+py, m[i++]);
 		}
 	    }
 	}
