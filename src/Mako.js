@@ -17,8 +17,8 @@
 
     function makeDrawPixel(imageData) {
         return function(x, y, c) {
-	    if (((c >> 24) & 0xFF) !== 0xFF)            { return; }
-	    if (x < 0 || x >= 320 || y < 0 || y >= 240) { return; }
+	        if (((c >> 24) & 0xFF) !== 0xFF)            { return; }
+	        if (x < 0 || x >= 320 || y < 0 || y >= 240) { return; }
 
             var data = imageData.data;
             var i = x * 4 + y * 320 * 4;
