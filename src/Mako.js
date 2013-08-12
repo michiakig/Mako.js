@@ -69,38 +69,36 @@
             }
         });
 
-        numTicks = 0;
-        numSyncs = 0;
+        var intervalID;
+	    var ticks = 0;
+        var showTicks = false;
+        // run gameloop once per frame, for approx 60 FPS
         function gameloop() {
             stats.begin();
-            var sync = false;
-            for(var i = 0; i < 1000; i++) {
-                // reached end of bytecode
-                if(vm.m[vm.m[MakoConstants.PC]] === -1) {
+            while(true) { // for each frame, execute ticks until seeing a sync opcode
+                if(vm.m[vm.m[MakoConstants.PC]] === -1) { // reached end of bytecode
                     clearInterval(intervalID);
-                    console.log('done');
                 }
-                // either execute one tick or perform one sync
+                // either (1) execute one tick or (2) perform one sync and then break
                 if(vm.m[vm.m[MakoConstants.PC]] !== MakoConstants.OP_SYNC) {
                     vm.tick();
-                    numTicks++;
+                    ticks++;
                 } else {
-                    sync = true;
                     vm.sync();
                     vm.m[MakoConstants.PC]++;
                     vm.setKeys(keys);
-                    numSyncs++;
+                    break; // yield to the browser for input
                 }
             }
-            if(sync) {
-                window.requestAnimationFrame(function() {
-                    ctx.putImageData(imageData, 0, 0);
-                    videoCtx.drawImage(hidden, 0, 0);
-                });
+            ctx.putImageData(imageData, 0, 0);
+            if(showTicks) {
+                ctx.fillStyle = "rgb(0,255,0)";
+                ctx.fillText(ticks, 20, 20);
+                ticks = 0;
             }
+            videoCtx.drawImage(hidden, 0, 0);
             stats.end();
         }
-
         intervalID = setInterval(gameloop, 1000 / 60);
     }
 
