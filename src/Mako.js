@@ -1,8 +1,10 @@
 // Mako.java
 ;(function(exports) {
+    var PIXEL_WIDTH = 320;
+    var PIXEL_HEIGHT = 240;
+
     window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
-    var scale = 3;
     var stats;
 
     function setupStats() {
@@ -15,13 +17,19 @@
         document.body.appendChild(stats.domElement);
     }
 
-    function makeDrawPixel(imageData) {
-        return function(x, y, c) {
-	        if (((c >> 24) & 0xFF) !== 0xFF)            { return; }
-	        if (x < 0 || x >= 320 || y < 0 || y >= 240) { return; }
+    /**
+     * instance of VideoOut is an interface to some canvas imageData:
+     * width, height, drawPixel(x, y, color)
+     */
+    function VideoOut(w, h, imageData) {
+        this.width = w;
+        this.height = h;
+        this.drawPixel = function(x, y, c) {
+	        if (((c >> 24) & 0xFF) !== 0xFF)        { return; }
+	        if (x < 0 || x >= w || y < 0 || y >= h) { return; }
 
             var data = imageData.data;
-            var i = x * 4 + y * 320 * 4;
+            var i = x * 4 + y * w * 4;
             data[i]   = (c >> 16) & 0xff;
             data[i+1] = (c >> 8) & 0xff;
             data[i+2] = c & 0xff;
@@ -39,9 +47,9 @@
         videoCtx.mozImageSmoothingEnabled = false;
         videoCtx.scale(2, 2);
 
-        var imageData = ctx.getImageData(0, 0, 320, 240);
-        var drawPixel = makeDrawPixel(imageData);
-        var vm = new MakoVM(write, drawPixel, rom);
+        var imageData = ctx.getImageData(0, 0, PIXEL_WIDTH, PIXEL_HEIGHT);
+        var videoOut = new VideoOut(PIXEL_WIDTH, PIXEL_HEIGHT, imageData);
+        var vm = new MakoVM(write, videoOut, rom);
 
         var keys = 0;
         var masks = {};

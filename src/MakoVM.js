@@ -72,7 +72,7 @@
     var X_OPEN_WRITE = 2;
 
     // MakoVM.java
-    function MakoVM(write, drawPixel, rom) {
+    function MakoVM(write, videoOut, rom) {
         // copy ROM into main memory
         var m = new Array(rom.length);
         for(var i = 0; i < rom.length; i++) {
@@ -183,7 +183,7 @@
             var i = m[GT] + (tile * 8 * 8);
             for(var y = 0; y < 8; y++) {
                 for(var x = 0; x < 8; x++) {
-                    drawPixel(x+px, y+py, m[i++]);
+                    videoOut.drawPixel(x+px, y+py, m[i++]);
                 }
             }
         }
@@ -200,7 +200,7 @@
             var i = m[ST] + (tile * w * h);
             for(var y = y0; y !== y1; y += yd) {
                 for(var x = x0; x !== x1; x += xd) {
-                    drawPixel(x+px, y+py, m[i++]);
+                    videoOut.drawPixel(x+px, y+py, m[i++]);
                 }
             }
         }
@@ -222,8 +222,10 @@
         function sync() {
             var scrollx = m[SX];
             var scrolly = m[SY];
-            for(var i = 0; i < this.p.length; i++) {
-                this.p[i] = m[CL];
+            for(var x = 0; x < videoOut.width; x++) {
+                for(var y = 0; y < videoOut.width; y++) {
+                    videoOut.drawPixel(x, y, m[CL]);
+                }
             }
             this.drawGrid(false, scrollx, scrolly);
             for(var sprite = 0; sprite < 1024; sprite += 4) {
