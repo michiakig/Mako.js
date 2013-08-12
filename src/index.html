@@ -8,11 +8,10 @@
     <script type="text/javascript" src="./MakoConstants.js"></script>
     <script type="text/javascript" src="./MakoVM.js"></script>
     <script type="text/javascript" src="./Mako.js"></script>
-    <script type="text/javascript" src="../pong.json"></script>
 
     <script type="text/javascript">
 function onload() {
-    loadBytes('pong.rom', function(rom) {
+    loadBytes('../roms/pong.rom', function(rom) {
         if(rom) {
             exec(rom);
         } else {
