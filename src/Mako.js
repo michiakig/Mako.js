@@ -30,8 +30,14 @@
     }
 
     function exec(rom) {
-        var canvas = document.getElementById('video');
-        var ctx = canvas.getContext('2d');
+        var hidden = document.getElementById('hidden');
+        var ctx = hidden.getContext('2d');
+        var video = document.getElementById('video');
+        var videoCtx = video.getContext('2d');
+        videoCtx.imageSmoothingEnabled = false;
+        videoCtx.webkitImageSmoothingEnabled = false;
+        videoCtx.mozImageSmoothingEnabled = false;
+        videoCtx.scale(2, 2);
 
         var imageData = ctx.getImageData(0, 0, 320, 240);
         var drawPixel = makeDrawPixel(imageData);
@@ -81,6 +87,7 @@
             if(sync) {
                 window.requestAnimationFrame(function() {
                     ctx.putImageData(imageData, 0, 0);
+                    videoCtx.drawImage(hidden, 0, 0);
                 });
             }
             stats.end();
