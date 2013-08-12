@@ -4,6 +4,7 @@
     <title>MakoVM</title>
     <script type="text/javascript" src="../lib/stats.min.js"></script>
     <script type="text/javascript" src="./WriteBrowser.js"></script>
+    <script type="text/javascript" src="./load.js"></script>
     <script type="text/javascript" src="./MakoConstants.js"></script>
     <script type="text/javascript" src="./MakoVM.js"></script>
     <script type="text/javascript" src="./Mako.js"></script>
@@ -11,7 +12,13 @@
 
     <script type="text/javascript">
 function onload() {
-    exec(pong);
+    loadBytes('pong.rom', function(rom) {
+        if(rom) {
+            exec(rom);
+        } else {
+            console.log('failed to load ROM');
+        }
+    });
 }
     </script>
 
