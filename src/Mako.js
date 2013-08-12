@@ -37,6 +37,24 @@
         var drawPixel = makeDrawPixel(imageData);
         var vm = new MakoVM(write, drawPixel, rom);
 
+        var keys = 0;
+        var masks = {};
+        masks[37] = MakoConstants.KEY_LF;
+        masks[38] = MakoConstants.KEY_UP;
+        masks[39] = MakoConstants.KEY_RT;
+        masks[40] = MakoConstants.KEY_DN;
+
+        document.body.addEventListener('keydown', function(e) {
+            if(masks[e.keyCode]) {
+                keys |= masks[e.keyCode];
+            }
+        });
+        document.body.addEventListener('keyup', function(e) {
+            if(masks[e.keyCode]) {
+                keys &= ~masks[e.keyCode];
+            }
+        });
+
         numTicks = 0;
         numSyncs = 0;
         function gameloop() {
@@ -56,7 +74,7 @@
                     sync = true;
                     vm.sync();
                     vm.m[MakoConstants.PC]++;
-                    // vm.keys = TODO
+                    vm.setKeys(keys);
                     numSyncs++;
                 }
             }

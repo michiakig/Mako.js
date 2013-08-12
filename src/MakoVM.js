@@ -82,6 +82,11 @@
 
         this.p = new Array(320 * 240);
 
+        var keys = 0;
+        this.setKeys = function(ks) {
+            keys = ks;
+        };
+
         function push(v)   { m[m[DP]++] = v; }
         function rpush(v)  { m[m[RP]++] = v; }
         function pop()     { return m[--m[DP]]; }
@@ -139,7 +144,7 @@
             if(addr === RN) { // random 32-bit two's complement int
                 return Math.floor(Math.random() * max1) - max2;
             }
-            if(addr === KY) { return -1; /*keys*/ }
+            if(addr === KY) { return keys; }
             if(addr === KB) {
                 //        if(keyQueue.length > 0) { return keyQueue.shift(); }
                 return -1;
