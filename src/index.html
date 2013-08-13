@@ -9,24 +9,21 @@
     <script type="text/javascript" src="./MakoVM.js"></script>
     <script type="text/javascript" src="./Mako.js"></script>
 
-    <script type="text/javascript">
-function onload() {
-    loadBytes('../roms/pong.rom', function(rom) {
-        if(rom) {
-            exec(rom);
-        } else {
-            console.log('failed to load ROM');
-        }
-    });
-}
-    </script>
+    <script type="text/javascript" src="main.js"></script>
 
     <style type="text/css">
 #hidden { display: none; }
     </style>
   </head>
-  <body onload="setupStats(); onload();">
+  <body onload="main();">
     <canvas id="hidden" width="320" height="240"></canvas>
     <canvas id="video" width="640" height="480"></canvas>
+    <p>
+      <select id="romselect">
+        <option>Aldez</option>
+        <option>Pong</option>
+      </select>
+      <button id="loadbutton" type="button">Load</button>
+    </p>
   </body>
 </html>

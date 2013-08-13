@@ -1,20 +1,39 @@
 // Mako.java
 ;(function(exports) {
+    window.requestAnimationFrame =
+        window.requestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.msRequestAnimationFrame;
+
     var PIXEL_WIDTH = 320;
     var PIXEL_HEIGHT = 240;
+    var videoOut, stats, ctx, videoCtx, imageData;
 
-    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    /**
+     * initialize canvas elements and Stats stuff
+     */
+    function setup() {
+        if(!videoOut) {
+            var hidden = document.getElementById('hidden');
+            ctx = hidden.getContext('2d');
+            var video = document.getElementById('video');
+            videoCtx = video.getContext('2d');
+            videoCtx.imageSmoothingEnabled = false;
+            videoCtx.webkitImageSmoothingEnabled = false;
+            videoCtx.mozImageSmoothingEnabled = false;
+            videoCtx.scale(2, 2);
+            imageData = ctx.getImageData(0, 0, PIXEL_WIDTH, PIXEL_HEIGHT);
+            videoOut = new VideoOut(PIXEL_WIDTH, PIXEL_HEIGHT, imageData);
 
-    var stats;
+            stats = new Stats();
+            stats.setMode(0); // 0: fps, 1: ms
 
-    function setupStats() {
-        stats = new Stats();
-        stats.setMode(0); // 0: fps, 1: ms
-
-        stats.domElement.style.position = 'absolute';
-        stats.domElement.style.right = '0px';
-        stats.domElement.style.top = '0px';
-        document.body.appendChild(stats.domElement);
+            stats.domElement.style.position = 'absolute';
+            stats.domElement.style.right = '0px';
+            stats.domElement.style.top = '0px';
+            document.body.appendChild(stats.domElement);
+        }
     }
 
     /**
@@ -38,19 +57,8 @@
     }
 
     function exec(rom) {
-        var hidden = document.getElementById('hidden');
-        var ctx = hidden.getContext('2d');
-        var video = document.getElementById('video');
-        var videoCtx = video.getContext('2d');
-        videoCtx.imageSmoothingEnabled = false;
-        videoCtx.webkitImageSmoothingEnabled = false;
-        videoCtx.mozImageSmoothingEnabled = false;
-        videoCtx.scale(2, 2);
-
-        var imageData = ctx.getImageData(0, 0, PIXEL_WIDTH, PIXEL_HEIGHT);
-        var videoOut = new VideoOut(PIXEL_WIDTH, PIXEL_HEIGHT, imageData);
+        setup();
         var vm = new MakoVM(write, videoOut, rom);
-
         var keys = 0;
         var masks = {};
         masks[37] = MakoConstants.KEY_LF;
@@ -103,6 +111,5 @@
     }
 
     exports.exec = exec;
-    exports.setupStats = setupStats;
 
 })(typeof exports === 'undefined' ? this : exports);
