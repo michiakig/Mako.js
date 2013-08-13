@@ -14,13 +14,15 @@
             });
         }
     }
+    function handleClick(e) {
+        var select = document.getElementById('romselect');
+        var romName = select.options[select.selectedIndex].innerHTML;
+        loadAndExecuteRom(romName);
+    }
     function main() {
         var button = document.getElementById('loadbutton');
-        button.addEventListener('click', function(e) {
-            var select = document.getElementById('romselect');
-            var romName = select.options[select.selectedIndex].innerHTML;
-            loadAndExecuteRom(romName);
-        });
+        button.addEventListener('click', handleClick);
+        handleClick(null);
     }
     window.main = main;
 })(window);
