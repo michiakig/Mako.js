@@ -9,6 +9,7 @@
     var PIXEL_WIDTH = 320;
     var PIXEL_HEIGHT = 240;
     var videoOut, stats, ctx, videoCtx, imageData;
+    var intervalID;
 
     /**
      * initialize canvas elements and Stats stuff
@@ -58,6 +59,9 @@
 
     function exec(rom) {
         setup();
+        if(intervalID)
+            clearInterval(intervalID);
+
         var vm = new MakoVM(write, videoOut, rom);
         var keys = 0;
         var masks = {};
@@ -77,7 +81,6 @@
             }
         });
 
-        var intervalID;
 	    var ticks = 0;
         var showTicks = false;
         // run gameloop once per frame, for approx 60 FPS
