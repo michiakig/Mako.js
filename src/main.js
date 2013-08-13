@@ -19,7 +19,7 @@
         button.addEventListener('click', function(e) {
             var select = document.getElementById('romselect');
             var romName = select.options[select.selectedIndex].innerHTML;
-            loadAndExecuteRom(romName.toLowerCase());
+            loadAndExecuteRom(romName);
         });
     }
     window.main = main;
