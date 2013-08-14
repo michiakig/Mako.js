@@ -8,7 +8,7 @@ From [the original project](https://github.com/JohnEarnest/Mako):
 
 This is a port of Mako to JavaScript with a canvas renderer. See it in
 action
-[here](http://mako.js.s3-website-us-east-1.amazonaws.com/).
+[here](http://mako.js.s3-website-us-east-1.amazonaws.com/). (all of the ROMs hosted there were compiled from example programs written by Mako's author. source for those are in the repo for [the original Mako project](https://github.com/JohnEarnest/Mako))
 
 Mako's author has done an excellent job with the documentation for the
 machine -- refer to [this
