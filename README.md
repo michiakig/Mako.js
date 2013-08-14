@@ -17,8 +17,10 @@ for a detailed introduction to Maker and the Mako VM. (This port would
 have been substantially more difficult had the documentation not been
 so good)
 
-The original project also includes a number of demos and games,
-including Forth Warrior:
+The original project comes with a number of demos and games, including
+the delightful [Forth
+Warrior](https://github.com/JohnEarnest/Mako/tree/master/games/Warrior2),
+intended as a programming puzzle game for teaching Forth.
 
 ![ForthWarrior screenshot](http://mako.js.s3-website-us-east-1.amazonaws.com/forthwarrior.png)
 
