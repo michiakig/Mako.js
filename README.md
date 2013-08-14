@@ -6,7 +6,25 @@ From [the original project](https://github.com/JohnEarnest/Mako):
 > simple as possible to implement. Maker is a compiler for a Forth-like
 > language that targets the Mako VM.
 
-This is a port of Mako to JavaScript with a canvas renderer.
+This is a port of Mako to JavaScript with a canvas renderer. See it in
+action
+[here](http://mako.js.s3-website-us-east-1.amazonaws.com/).
+
+Mako's author has done an excellent job with the documentation for the
+machine -- refer to [this
+page](https://github.com/JohnEarnest/Mako/blob/master/docs/makoBasics.md)
+for a detailed introduction to Maker and the Mako VM. (This port would
+have been substantially more difficult had the documentation not been
+so good)
+
+The original project also includes a number of demos and games,
+including Forth Warrior:
+
+![ForthWarrior screenshot](http://mako.js.s3-website-us-east-1.amazonaws.com/forthwarrior.png)
+
+Most of the example programs run in this JavaScript implementation,
+but there are some rough edges and quirks, some related to performance
+and others to specific issues with the browser environment.
 
 ## how to build a ROM
 
@@ -16,4 +34,4 @@ This is a port of Mako to JavaScript with a canvas renderer.
 
 This gives you a binary ROM file that can be loaded into the
 browser. Alternatively, I've compiled some of the examples and
-included the binaries in this repo.
+hosted the binaries [here](http://mako.js.s3-website-us-east-1.amazonaws.com/).
