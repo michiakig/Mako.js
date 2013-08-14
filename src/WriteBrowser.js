@@ -1,3 +1,6 @@
+/**
+ * For character IO in the browser, buffer characters until seeing a newline
+ */
 ;(function(exports) {
     var buf = [];
     // buffer chars, flush on newline
