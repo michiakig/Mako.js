@@ -87,6 +87,11 @@
             keys = ks;
         };
 
+        var keyQueue = [];
+        this.pushKey = function(k) {
+            keyQueue.push(k);
+        };
+
         function push(v)   { m[m[DP]++] = v; }
         function rpush(v)  { m[m[RP]++] = v; }
         function pop()     { return m[--m[DP]]; }
@@ -146,7 +151,7 @@
             }
             if(addr === KY) { return keys; }
             if(addr === KB) {
-                //        if(keyQueue.length > 0) { return keyQueue.shift(); }
+                if(keyQueue.length > 0) { return keyQueue.shift(); }
                 return -1;
             }
             if(addr === CO) {

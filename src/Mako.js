@@ -86,6 +86,9 @@
                 keys &= ~masks[e.keyCode];
             }
         });
+        document.body.addEventListener('keypress', function(e) {
+            vm.pushKey(e.keyCode);
+        });
 
 	    var ticks = 0;
         var showTicks = false;
