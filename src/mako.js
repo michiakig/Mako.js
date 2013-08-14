@@ -1,11 +1,16 @@
 // Mako.java
 ;(function(exports) {
-    window.requestAnimationFrame =
-        window.requestAnimationFrame ||
-        window.mozRequestAnimationFrame ||
-        window.webkitRequestAnimationFrame ||
-        window.msRequestAnimationFrame;
-
+    if(typeof window !== 'undefined') {
+        window.requestAnimationFrame =
+            window.requestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.msRequestAnimationFrame;
+    } else {
+        MakoVM = require('./mako_vm.js').MakoVM;
+        MakoConstants = require('./mako_constants.js').MakoConstants;
+        write = require('./write_node.js').write;
+    }
     var PIXEL_WIDTH = 320;
     var PIXEL_HEIGHT = 240;
     var videoOut, stats, ctx, videoCtx, imageData;
@@ -15,7 +20,7 @@
      * initialize canvas elements and Stats stuff
      */
     function setup() {
-        if(!videoOut) {
+        if(typeof document !== 'undefined' && !videoOut) {
             var hidden = document.getElementById('hidden');
             ctx = hidden.getContext('2d');
             var video = document.getElementById('video');
@@ -76,25 +81,28 @@
         masks[88] /* X */ = MakoConstants.KEY_B; // key-b
         masks[16] /* shift */ = MakoConstants.KEY_B;
 
-        document.body.addEventListener('keydown', function(e) {
-            if(masks[e.keyCode]) {
-                keys |= masks[e.keyCode];
-            }
-        });
-        document.body.addEventListener('keyup', function(e) {
-            if(masks[e.keyCode]) {
-                keys &= ~masks[e.keyCode];
-            }
-        });
-        document.body.addEventListener('keypress', function(e) {
-            vm.pushKey(e.keyCode);
-        });
-
+        if(typeof document !== 'undefined') {
+            document.body.addEventListener('keydown', function(e) {
+                if(masks[e.keyCode]) {
+                    keys |= masks[e.keyCode];
+                }
+            });
+            document.body.addEventListener('keyup', function(e) {
+                if(masks[e.keyCode]) {
+                    keys &= ~masks[e.keyCode];
+                }
+            });
+            document.body.addEventListener('keypress', function(e) {
+                vm.pushKey(e.keyCode);
+            });
+        }
         var ticks = 0;
         var showTicks = false;
         // run gameloop once per frame, for approx 60 FPS
         function gameloop() {
-            stats.begin();
+            if(stats) {
+                stats.begin();
+            }
             while(true) { // for each frame, execute ticks until seeing a sync opcode
                 if(vm.m[vm.m[MakoConstants.PC]] === -1) { // reached end of bytecode
                     clearInterval(intervalID);
@@ -117,7 +125,9 @@
                 ticks = 0;
             }
             videoCtx.drawImage(hidden, 0, 0);
-            stats.end();
+            if(stats) {
+                stats.end();
+            }
         }
         intervalID = setInterval(gameloop, 1000 / 60);
     }
