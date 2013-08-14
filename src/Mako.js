@@ -45,8 +45,8 @@
         this.width = w;
         this.height = h;
         this.drawPixel = function(x, y, c) {
-	        if (((c >> 24) & 0xFF) !== 0xFF)        { return; }
-	        if (x < 0 || x >= w || y < 0 || y >= h) { return; }
+            if (((c >> 24) & 0xFF) !== 0xFF)        { return; }
+            if (x < 0 || x >= w || y < 0 || y >= h) { return; }
 
             var data = imageData.data;
             var i = x * 4 + y * w * 4;
@@ -70,11 +70,11 @@
         masks[39] = MakoConstants.KEY_RT;
         masks[40] = MakoConstants.KEY_DN;
 
-		masks[13] /* enter */ = MakoConstants.KEY_A; // key-a
-		masks[32] /* space */ = MakoConstants.KEY_A;
-		masks[90] /* Z */ = MakoConstants.KEY_A;
-		masks[88] /* X */ = MakoConstants.KEY_B; // key-b
-		masks[16] /* shift */ = MakoConstants.KEY_B;
+        masks[13] /* enter */ = MakoConstants.KEY_A; // key-a
+        masks[32] /* space */ = MakoConstants.KEY_A;
+        masks[90] /* Z */ = MakoConstants.KEY_A;
+        masks[88] /* X */ = MakoConstants.KEY_B; // key-b
+        masks[16] /* shift */ = MakoConstants.KEY_B;
 
         document.body.addEventListener('keydown', function(e) {
             if(masks[e.keyCode]) {
@@ -90,7 +90,7 @@
             vm.pushKey(e.keyCode);
         });
 
-	    var ticks = 0;
+        var ticks = 0;
         var showTicks = false;
         // run gameloop once per frame, for approx 60 FPS
         function gameloop() {
