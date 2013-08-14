@@ -71,7 +71,7 @@
         masks[40] = MakoConstants.KEY_DN;
 
 		masks[13] /* enter */ = MakoConstants.KEY_A; // key-a
-		masks[17] /* space */ = MakoConstants.KEY_A;
+		masks[32] /* space */ = MakoConstants.KEY_A;
 		masks[90] /* Z */ = MakoConstants.KEY_A;
 		masks[88] /* X */ = MakoConstants.KEY_B; // key-b
 		masks[16] /* shift */ = MakoConstants.KEY_B;
