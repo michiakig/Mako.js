@@ -50,6 +50,7 @@
         this.width = w;
         this.height = h;
         this.drawPixel = function(x, y, c) {
+            if(!imageData) { return; }
             if (((c >> 24) & 0xFF) !== 0xFF)        { return; }
             if (x < 0 || x >= w || y < 0 || y >= h) { return; }
 
@@ -119,13 +120,15 @@
                     break; // yield to the browser for input
                 }
             }
-            ctx.putImageData(imageData, 0, 0);
-            if(showTicks) {
-                ctx.fillStyle = "rgb(0,255,0)";
-                ctx.fillText(ticks, 20, 20);
-                ticks = 0;
+            if(ctx) {
+                ctx.putImageData(imageData, 0, 0);
+                if(showTicks) {
+                    ctx.fillStyle = "rgb(0,255,0)";
+                    ctx.fillText(ticks, 20, 20);
+                    ticks = 0;
+                }
+                videoCtx.drawImage(hidden, 0, 0);
             }
-            videoCtx.drawImage(hidden, 0, 0);
             if(stats) {
                 stats.end();
             }

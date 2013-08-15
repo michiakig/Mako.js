@@ -80,8 +80,6 @@
         }
         this.m = m;
 
-        this.p = new Array(320 * 240);
-
         var keys = 0;
         this.setKeys = function(ks) {
             keys = ks;
