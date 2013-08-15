@@ -104,8 +104,9 @@
                 stats.begin();
             }
             while(true) { // for each frame, execute ticks until seeing a sync opcode
-                if(vm.m[vm.m[MakoConstants.PC]] === -1) { // reached end of bytecode
+                if(vm.m[MakoConstants.PC] === -1) { // reached end of bytecode
                     clearInterval(intervalID);
+                    break;
                 }
                 // either (1) execute one tick or (2) perform one sync and then break
                 if(vm.m[vm.m[MakoConstants.PC]] !== MakoConstants.OP_SYNC) {
